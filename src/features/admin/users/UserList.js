@@ -21,7 +21,7 @@ const UserList = () => {
   }
 
   const loadUsers = (query = '?role=admin') => {
-    UserService.fetchAllUsers(query)
+    UserService.fetchAllUser(query)
       .then((response) => {
         setUsers(response?.data?.data)
       })
