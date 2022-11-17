@@ -97,6 +97,10 @@ const ProductList = () => {
       name: 'price',
     },
     {
+      label: 'Stock',
+      name: 'stock',
+    },
+    {
       label: 'Category',
       name: 'category',
     },

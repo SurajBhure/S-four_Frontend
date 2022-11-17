@@ -107,7 +107,6 @@ const UserForm = () => {
           gender: '',
           status: 1,
           role: 'admin',
-          ...initialUser,
         }}
         validationSchema={userSchema}
         onSubmit={handleSubmit}

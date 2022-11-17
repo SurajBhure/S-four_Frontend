@@ -20,6 +20,7 @@ import ProductService from '../../../services/ProductService'
 import { useState } from 'react'
 import { endpoints } from '../../../api'
 import { useParams } from 'react-router-dom'
+import { useEffect } from 'react'
 
 const ImageUpload = ({ name, src, handleDelete }) => (
   <Box
@@ -56,15 +57,23 @@ const ImageUpload = ({ name, src, handleDelete }) => (
 )
 
 const productSchema = yup.object().shape({
+  category: yup.string().required(),
   name: yup.string().required(),
-  status: yup.number(),
-  brand: yup.string(),
+  brand: yup.string().required(),
   price: yup.number().required(),
-  quantity: yup.number(),
-  category: yup.string(),
+  stock: yup.number().required(),
+  discount: yup.number().required().optional(),
+  images: yup.array().required(),
+  status: yup.number(),
 })
 
 const ProductForm = () => {
+  const {
+    handleDialogClose,
+    operation,
+    loadAllProducts,
+    initialProduct,
+  } = useContext(ProductContext)
   const { id } = useParams()
   const [hasUpdated, setHasUpdated] = useState(false)
   const [images, setImages] = useState([])
@@ -78,20 +87,15 @@ const ProductForm = () => {
     brand: '',
     category: '',
     price: '',
-    quantity: '',
+    stock: '',
+    discount: '',
     features: '',
     images: [],
     sizes: [],
     colors: [],
     status: 1,
+    ...initialProduct,
   })
-
-  const {
-    initialProduct,
-    handleDialogClose,
-    operation,
-    loadAllProducts,
-  } = useContext(ProductContext)
 
   //for image handle part
   //for reading and converting multiple files into base64
@@ -140,40 +144,39 @@ const ProductForm = () => {
   } // handleImageDelete
 
   const loadSingleProduct = () => {
-    if (operation == 'edit')
-      ProductService.fetchOneProduct(id)
-        .then((response) => {
-          //get single product detail
-          const product = response.data.data
-          console.log(response.data.data)
-          //stored detail in initialValues
-          setInitialValues(product)
+    ProductService.fetchOneProduct(id)
+      .then((response) => {
+        //get single product detail
+        const product = response?.data?.data
+        console.log(response.data.data)
+        //stored detail in initialValues
+        setInitialValues(product)
 
-          //get array of images from product object
-          const images = product.images
+        //get array of images from product object
+        const images = product.images
 
-          if (images && images.length > 0) {
-            let allPromises = []
+        if (images && images.length > 0) {
+          let allPromises = []
 
-            for (const img of images) {
-              //url string format mdhe ahe blob mdhe convert krych
-              const p = fetch(`${endpoints.serverBaseUrl}/${img}`).then((res) =>
-                res.blob(),
-              )
-              allPromises.push(p)
-            }
-            //Promise.all used for all promises settlement and return single promise instead all promises which contains all promises data
-            Promise.all(allPromises).then(async (promises) => {
-              const arr = await promises
-              console.log('Arr Pro', arr)
-              setImages(arr)
-              tobase64Handler(arr)
-            })
+          for (const img of images) {
+            //url string format mdhe ahe blob mdhe convert krych
+            const p = fetch(`${endpoints.serverBaseUrl}/${img}`).then((res) =>
+              res.blob(),
+            )
+            allPromises.push(p)
           }
-        })
-        .catch((err) => {
-          console.error(err)
-        })
+          //Promise.all used for all promises settlement and return single promise instead all promises which contains all promises data
+          Promise.all(allPromises).then(async (promises) => {
+            const arr = await promises
+            console.log('Arr Pro', arr)
+            setImages(arr)
+            tobase64Handler(arr)
+          })
+        }
+      })
+      .catch((err) => {
+        console.error(err)
+      })
   }
 
   React.useEffect(() => {
@@ -228,8 +231,10 @@ const ProductForm = () => {
 
       if (initialValues.price != values.price) fd.append('price', values?.price)
 
-      if (initialValues.quantity != values.quantity)
-        fd.append('quantity', values?.quantity)
+      if (initialValues.stock != values.stock) fd.append('stock', values?.stock)
+
+      if (initialValues.discount != values.discount)
+        fd.append('discount', values?.discount)
 
       if (initialValues.status != values.status)
         fd.append('status', values?.status)
@@ -242,7 +247,10 @@ const ProductForm = () => {
       //edit operation
       ProductService.updateProduct(values?._id, fd)
         .then((response) => {
-          const product = alert('Product updated...')
+          const product = response.data.data
+          console.log('Updated Product: ', product)
+          alert('Product updated...')
+          handleDialogClose()
         })
         .catch((err) => {
           alert('Product not updated...')
@@ -256,7 +264,8 @@ const ProductForm = () => {
       fd.append('brand', values?.brand)
       fd.append('category', values?.category)
       fd.append('price', values?.price)
-      fd.append('quantity', values?.quantity)
+      fd.append('stock', values?.stock)
+      fd.append('discount', values?.discount)
       fd.append('status', values?.status)
       fd.append('features', values?.features)
 
@@ -294,6 +303,7 @@ const ProductForm = () => {
           <Card sx={{ padding: 3 }}>
             <Formik
               initialValues={initialValues}
+              enableReinitialize
               validationSchema={productSchema}
               onSubmit={handleSubmit}
 
@@ -311,7 +321,7 @@ const ProductForm = () => {
               }) => (
                 <Box component="form" onSubmit={handleSubmit}>
                   <Grid container spacing={2}>
-                    <Grid item xs={12} md={6}>
+                    <Grid item xs={12}>
                       <TextField
                         fullWidth
                         variant="outlined"
@@ -330,7 +340,7 @@ const ProductForm = () => {
                         helperText={touched?.name && errors?.name}
                       />
                     </Grid>
-                    <Grid item xs={12} md={6}>
+                    <Grid item xs={12}>
                       <TextField
                         fullWidth
                         variant="outlined"
@@ -355,7 +365,7 @@ const ProductForm = () => {
                         }
                       />
                     </Grid>
-                    <Grid item xs={12} md={6}>
+                    <Grid item xs={12}>
                       <TextField
                         fullWidth
                         variant="outlined"
@@ -412,6 +422,25 @@ const ProductForm = () => {
                           touched?.category && errors?.category ? true : false
                         }
                         helperText={touched?.category && errors?.category}
+                      />
+                    </Grid>
+                    <Grid item xs={12}>
+                      <TextField
+                        fullWidth
+                        variant="outlined"
+                        label="Stock"
+                        name="stock"
+                        value={values.stock}
+                        onBlur={handleBlur}
+                        onChange={(e) => {
+                          handleChange(e)
+                          checkDiff(
+                            { ...values, stock: e.target.value },
+                            initialValues,
+                          )
+                        }}
+                        error={touched?.stock && errors?.stock ? true : false}
+                        helperText={touched?.stock && errors?.stock}
                       />
                     </Grid>
 
