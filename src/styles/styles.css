@@ -1,0 +1,118 @@
+.form-control {
+  @apply bg-gray-900 px-4 py-3 rounded-sm outline-none w-full;
+}
+.alert-danger {
+  @apply bg-red-100 text-red-700 p-3 mb-2 rounded-sm text-sm font-medium border-l-4 border-red-700;
+}
+.alert-success {
+  @apply bg-green-100 text-green-700 p-3 mb-2 rounded-sm text-sm font-medium border-l-4 border-green-700;
+}
+/* pagination Link */
+.pagination-link {
+  @apply border border-gray-800 border-r-0 text-gray-500 text-sm font-medium block py-2 px-4 bg-gray-900 hover:bg-gray-50 hover:text-gray-900;
+}
+.pagination-link-light {
+  @apply border border-gray-400 border-r-0 text-gray-700 text-sm font-medium block py-2 px-4 bg-white hover:bg-gray-50 hover:text-gray-900;
+}
+.pagination-li {
+  @apply border-r border-gray-400;
+}
+
+/* sizes  */
+.size {
+  @apply border border-gray-400 px-2 ml-2 py-1.5 mt-2 uppercase cursor-pointer rounded text-xs text-gray-400;
+}
+.right-heading {
+  @apply border-b border-gray-700 pb-5 mb-5 mt-5;
+}
+/* image-preview */
+.preview-img-heading {
+  @apply my-2 text-base capitalize text-gray-400;
+}
+.preview-image {
+  @apply w-full max-h-[190px] h-full rounded-md overflow-hidden mt-3;
+}
+.ql-toolbar.ql-snow {
+  @apply border-none bg-gray-900 !important;
+}
+.ql-container.ql-snow {
+  @apply border-none bg-gray-700 !important;
+}
+.container {
+  @apply max-w-screen-xl w-full mx-auto px-6;
+}
+
+.flex-y {
+  @apply flex items-center;
+}
+.heading {
+  @apply text-lg capitalize font-medium;
+}
+.error {
+  @apply block mt-1.5 text-rose-600 font-medium text-sm;
+}
+.account-list {
+  @apply flex items-center px-3 py-3.5 rounded-md;
+}
+.account-list-tittle {
+  @apply block ml-3 font-medium text-sm text-gray-700 capitalize;
+}
+a.active {
+  @apply bg-gray-50;
+}
+
+/* Swipper style */
+.slide {
+  @apply relative;
+}
+.slide-img {
+  @apply absolute inset-0 bg-cover bg-no-repeat;
+}
+.swiper {
+  width: 100%;
+  height: 60vh;
+}
+
+.swiper-slide {
+  text-align: center;
+  font-size: 18px;
+  background: #fff;
+
+  /* Center slide text vertically */
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: -webkit-flex;
+  display: flex;
+  -webkit-box-pack: center;
+  -ms-flex-pack: center;
+  -webkit-justify-content: center;
+  justify-content: center;
+  -webkit-box-align: center;
+  -ms-flex-align: center;
+  -webkit-align-items: center;
+  align-items: center;
+}
+
+.swiper-slide img {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+
+.description h1 {
+  @apply text-4xl capitalize;
+}
+
+.description h2 {
+  @apply text-3xl capitalize;
+}
+
+.description h3 {
+  @apply text-2xl capitalize;
+}
+
+.description h4 {
+  @apply text-xl capitalize;
+}

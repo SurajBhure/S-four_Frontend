@@ -1,0 +1,12 @@
+ Extra packages we installed for this project
+ 
+ jwt-decode  - for jwt token decode (password decode)
+ react-color - color picker for product
+ react-hot-toast - error / success message show toast in toast format
+ react-icons - for icons we use this 
+ react-quill - for product description we use this package
+ uuid - for unique id / name for images we use this package
+ swiper - for slider we use this package
+ framer-motion - for motion effect we use this(only we have to use Motion in front of that div)
+ currency-formatter - forprice display
+ html2plaintext - parse quill editor text so for that we need this package
