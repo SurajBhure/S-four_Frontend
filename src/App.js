@@ -1,7 +1,7 @@
-import { Route, Routes } from 'react-router-dom';
-import './App.css';
-import Blanklayout from './layout/blanklayout/Blanklayout';
-import Fulllayout from './layout/fulllayout/Fulllayout';
+import { Route, Routes } from "react-router-dom";
+import "./App.css";
+import Blanklayout from "./layout/blanklayout/Blanklayout";
+import Fulllayout from "./layout/fulllayout/Fulllayout";
 
 function App() {
   return (
