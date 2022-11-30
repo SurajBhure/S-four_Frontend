@@ -14,6 +14,7 @@ import Wrapper from "./Wrapper";
 const Categories = () => {
   const dispatch = useDispatch();
 
+  
   // page distructure from Routing file path= categories/:page
   let { page } = useParams();
   console.log("Your page", page); // check in consle wheter the params is showing page in console
