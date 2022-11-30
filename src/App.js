@@ -8,7 +8,9 @@ function App() {
     <div className="">
       <Routing />
     </div>
-  );
+  )
 }
 
-export default App;
+export default App
+
+//app heading removed keleli ahe
